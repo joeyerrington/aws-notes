@@ -78,7 +78,7 @@ function makeNode(n){
  wrap.dataset.depth=n.depth;if(!n.children.length)toggle.classList.add('leaf');
  toggle.setAttribute('aria-label','Toggle '+n.text);
  row.append(toggle,marked(n.text));wrap.append(row);
- if(n.children.length){if(n.depth>=2)wrap.classList.add('collapsed');const children=el('div','node-children');n.children.forEach(c=>children.append(makeNode(c)));wrap.append(children);toggle.onclick=()=>wrap.classList.toggle('collapsed')}
+ if(n.children.length){if(n.depth>=1)wrap.classList.add('collapsed');const children=el('div','node-children');n.children.forEach(c=>children.append(makeNode(c)));wrap.append(children);toggle.onclick=()=>wrap.classList.toggle('collapsed')}
  return wrap;
 }
 function render(){
@@ -136,7 +136,7 @@ function go(index){
 }
 next.onclick=()=>go(active+1);
 prev.onclick=()=>go(active-1);
-close.onclick=()=>{search.value='';clearMarks();document.querySelectorAll('.section,.node').forEach(x=>x.classList.toggle('collapsed',x.classList.contains('node') && x.querySelector(':scope > .node-children') && Number(x.dataset.depth)>=2));status.textContent=DATA.length+' topics · '+total+' notes';next.disabled=prev.disabled=true;search.blur()};
+close.onclick=()=>{search.value='';clearMarks();document.querySelectorAll('.section,.node').forEach(x=>x.classList.toggle('collapsed',x.classList.contains('node') && x.querySelector(':scope > .node-children') && Number(x.dataset.depth)>=1));status.textContent=DATA.length+' topics · '+total+' notes';next.disabled=prev.disabled=true;search.blur()};
 let debounce;
 search.addEventListener('input',()=>{clearTimeout(debounce);debounce=setTimeout(findMatches,120)});
 search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();go(active+(e.shiftKey?-1:1));search.blur()}});
