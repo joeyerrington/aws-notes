@@ -84,7 +84,7 @@ function makeNode(n){
 function render(){
  content.replaceChildren();nav.replaceChildren();
  DATA.forEach((root,i)=>{
-  const sec=el('section','section');sec.id='topic-'+i;
+  const sec=el('section','section collapsed');sec.id='topic-'+i;
   const head=el('div','section-head'),toggle=el('button');
   toggle.append(el('span','chev','⌄'),el('span','title',root.text),el('span','count',count(root)+' lines'));
   toggle.onclick=()=>sec.classList.toggle('collapsed');head.append(toggle);sec.append(head);
@@ -136,7 +136,7 @@ function go(index){
 }
 next.onclick=()=>go(active+1);
 prev.onclick=()=>go(active-1);
-close.onclick=()=>{search.value='';clearMarks();document.querySelectorAll('.section,.node').forEach(x=>x.classList.toggle('collapsed',x.classList.contains('node') && x.querySelector(':scope > .node-children') && Number(x.dataset.depth)>=1));status.textContent=DATA.length+' topics · '+total+' notes';next.disabled=prev.disabled=true;search.blur()};
+close.onclick=()=>{search.value='';clearMarks();document.querySelectorAll('.section,.node').forEach(x=>x.classList.toggle('collapsed',x.classList.contains('section') || (x.classList.contains('node') && x.querySelector(':scope > .node-children') && Number(x.dataset.depth)>=1)));status.textContent=DATA.length+' topics · '+total+' notes';next.disabled=prev.disabled=true;search.blur()};
 let debounce;
 search.addEventListener('input',()=>{clearTimeout(debounce);debounce=setTimeout(findMatches,120)});
 search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();go(active+(e.shiftKey?-1:1));search.blur()}});
